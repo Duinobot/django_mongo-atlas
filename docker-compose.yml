@@ -1,0 +1,24 @@
+version: "3"
+volumes:
+    media_vol:
+    static_vol:
+
+networks:
+    dj_network:
+      driver: bridge
+
+services:
+    django:
+      build: ./icompose
+      ports:
+          - 8000:8000
+      volumes:
+          - ./icompose:/var/www/html/icompose
+          - static_vol:/var/www/html/icompose/static
+          - media_vol:/var/www/html/icompose/media
+          - ./compose/uwsgi:/tmp
+      networks:
+          - dj_network
+      tty: true
+      stdin_open: true
+      restart: always
